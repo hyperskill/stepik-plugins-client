@@ -4,9 +4,7 @@ import datetime
 import subprocess  # noqa: S404
 from pathlib import Path
 
-from pytz import UTC
-
-VERSION = (1, 0, 1, 'final', 0)
+VERSION = (1, 0, 2, 'final', 0)
 
 
 def get_version(version: tuple[int, int, int, str, int] | None = None) -> str:
@@ -53,8 +51,8 @@ def get_git_changeset() -> str | None:
     )
     git_log_timestamp = git_log.communicate()[0]
     try:
-        timestamp = datetime.datetime.fromtimestamp(
-            int(git_log_timestamp), tz=UTC
+        timestamp = datetime.datetime.fromtimestamp(  # noqa: DTZ006
+            int(git_log_timestamp)
         )
     except ValueError:
         return None
