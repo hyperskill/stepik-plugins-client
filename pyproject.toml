@@ -1,0 +1,39 @@
+[tool.isort]
+line_length = 80
+multi_line_output = 6
+honor_noqa = true
+order_by_type = false
+use_parentheses = true
+combine_as_imports = true
+only_modified = true
+lexicographical = true
+group_by_package = true
+force_alphabetical_sort_within_sections = true
+add_imports = "from __future__ import annotations"
+
+[tool.autopep8]
+in-place = true
+ignore = [
+    "E129"
+]
+max_line_length = 100
+
+[tool.mypy]
+python_version = 3.9
+
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+ignore_errors = false
+ignore_missing_imports = true
+implicit_reexport = true
+strict_optional = true
+strict_equality = true
+no_implicit_optional = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unreachable = true
+warn_no_return = true
+show_error_codes = true

@@ -1,0 +1,107 @@
+[flake8]
+ignore =
+# Do not call getattr with a constant attribute value, it is not any safer than
+# normal property access.
+    B009,
+# Do not call setattr with a constant attribute value, it is not any safer than
+# normal property access.
+    B010,
+# Missing docstring in public module
+    D100,
+# Missing docstring in public class
+    D101,
+# Missing docstring in public method
+    D102,
+# Missing docstring in public function
+    D103,
+# Missing docstring in public package
+    D104,
+# Missing docstring in magic method
+    D105,
+# Missing docstring in public nested class
+    D106,
+# Missing docstring in __init__
+    D107,
+# Missing namespace in urls include()
+    DJ05,
+# Model should define verbose_name in its Meta inner class
+    DJ10,
+# Model should define verbose_name_plural in its Meta inner class
+    DJ11,
+# visually indented line with same indent as next logical line
+    E129
+# line break after binary operator
+    W504,
+# You shouldn`t assign value to variable if it will be use only as return value
+    R504,
+# Use of assert detected
+    S101,
+# Use of insecure MD2, MD4, MD5, or SHA1 hash function
+    S303,
+# Standard pseudo-random generators are not suitable for security/cryptographic
+# purposes
+    S311,
+# String literal formatting using f-string.
+    SFS301,
+# variable in function should be lowercase
+    N806,
+# Missing type annotation for *args
+    ANN002,
+# Missing type annotation for **kwargs
+    ANN003,
+# Missing type annotation for self in method
+    ANN101,
+# Missing type annotation for cls in classmethod
+    ANN102,
+# An unused argument starting with an underscore
+    U101,
+# "# noqa: X000" has no matching violations
+    NQA102,
+# @staticmethod should not be used.
+    CLST100,
+# @classmethod should not be used.
+    CLST130,
+
+count = True
+max-line-length = 100
+max-doc-length = 100
+exclude =
+    .git,
+    __pycache__,
+    alt-content,
+    build,
+    dist,
+    node_modules,
+    apps/frontend/urls.py
+    venv
+    .mypy_cache
+import-order-style = smarkets
+application-import-names = alt,apps
+app-import-names = alt,apps
+inline-quotes = '
+max-annotations-complexity = 4
+min-coverage-percents = 100
+max-function-length = 136
+max-parameters-amount = 9
+max-returns-amount = 9
+dictionaries = en_US,python,technical,django
+ignore-names =
+    failureException,
+    longMessage,
+    maxDiff,
+    setUp,
+    setUpClass,
+    setUpTestData,
+    tearDown,
+    tearDownClass,
+classmethod-decorators =
+    classmethod,
+    classonlymethod,
+    classproperty,
+max-expression-complexity = 13
+unused-arguments-ignore-abstract-functions = true
+unused-arguments-ignore-stub-functions = true
+unused-arguments-ignore-variadic-names = true
+eradicate-whitelist-extend = mypy:
+
+enable-extensions = B1, TC, TC1
