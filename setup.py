@@ -21,7 +21,7 @@ setup(
     long_description=README,
     url='https://stepik.org',
     install_requires=[
-        'oslo.messaging==12.13.0',
+        'oslo.messaging==4.4.0',
         'pytz==2022.1',
         'structlog==21.5.0',
         'voluptuous==0.12.2',

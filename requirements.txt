@@ -1,4 +1,4 @@
-oslo.messaging==12.13.0
+oslo.messaging==4.4.0
 structlog==21.5.0
 voluptuous==0.12.2
 pytz==2022.1

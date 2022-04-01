@@ -98,7 +98,6 @@ def _get_rpcapi_client(name, transport_url, timeout=5 * 60):
 
 
 def quiz_rpcapi(transport_url: str,
-                is_fake_server: bool = True,
                 timeout: int = 5 * 60 * SECOND) -> ReportedQuizAPI:
     """Get client for the quizzes RPC API."""
     return _get_rpcapi_client(
@@ -107,7 +106,6 @@ def quiz_rpcapi(transport_url: str,
 
 
 def codejail_rpcapi(transport_url: str,
-                    is_fake_server: bool = True,
                     timeout: int = 5 * 60 * SECOND) -> ReportedCodeJailAPI:
     """Get client for the codejail RPC API."""
     return _get_rpcapi_client(
@@ -116,7 +114,6 @@ def codejail_rpcapi(transport_url: str,
 
 
 def utils_rpcapi(transport_url: str,
-                 is_fake_server: bool = True,
                  timeout: int = 5 * 60 * SECOND) -> ReportedUtilsAPI:
     """Get client for the utils RPC API."""
     return _get_rpcapi_client(
