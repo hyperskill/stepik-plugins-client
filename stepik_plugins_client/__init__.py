@@ -4,7 +4,7 @@ import datetime
 import subprocess  # noqa: S404
 from pathlib import Path
 
-VERSION = (1, 0, 4, 'final', 0)
+VERSION = (1, 0, 5, 'final', 0)
 
 
 def get_version(version: tuple[int, int, int, str, int] | None = None) -> str:
