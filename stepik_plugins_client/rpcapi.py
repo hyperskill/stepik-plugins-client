@@ -107,11 +107,12 @@ class QuizAPI(BaseAPI):
     def async_init(self, quiz_ctxt: dict[str, Any]) -> str:
         return self.client.call(quiz_ctxt, 'async_init')
 
-    def generate(self, quiz_ctxt: dict[str, Any]) -> str:
+    def generate(self,
+                 quiz_ctxt: dict[str, Any]) -> tuple[dict[str, Any], Any] | None:
         return self.client.call(quiz_ctxt, 'generate')
 
     def clean_reply(self, quiz_ctxt: dict[str, Any],
-                    reply: str, dataset: dict[str, Any] | None = None) -> str:
+                    reply: dict[str, Any], dataset: dict[str, Any] | None = None) -> str:
         return self.client.call(
             quiz_ctxt,
             'clean_reply',
@@ -120,10 +121,11 @@ class QuizAPI(BaseAPI):
         )
 
     def check(self, quiz_ctxt: dict[str, Any],
-              reply: str, clue: str | None = None) -> str:
+              reply: dict[str, Any], clue: dict[str, Any] | None = None) -> str:
         return self.client.call(quiz_ctxt, 'check', reply=reply, clue=clue)
 
-    def cleanup(self, quiz_ctxt: dict[str, Any], clue: str | None = None) -> str:
+    def cleanup(self, quiz_ctxt: dict[str, Any],
+                clue: dict[str, Any] | None = None) -> str:
         return self.client.call(quiz_ctxt, 'cleanup', clue=clue)
 
     def list_computationally_hard_quizzes(self) -> str:
