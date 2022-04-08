@@ -112,7 +112,8 @@ class QuizAPI(BaseAPI):
         return self.client.call(quiz_ctxt, 'generate')
 
     def clean_reply(self, quiz_ctxt: dict[str, Any],
-                    reply: dict[str, Any], dataset: dict[str, Any] | None = None) -> str:
+                    reply: dict[str, Any],
+                    dataset: dict[str, Any] | None = None) -> dict[str, Any]:
         return self.client.call(
             quiz_ctxt,
             'clean_reply',
@@ -120,8 +121,11 @@ class QuizAPI(BaseAPI):
             dataset=dataset
         )
 
-    def check(self, quiz_ctxt: dict[str, Any],
-              reply: dict[str, Any], clue: dict[str, Any] | None = None) -> str:
+    def check(
+        self, quiz_ctxt: dict[str, Any],
+        reply: dict[str, Any],
+        clue: dict[str, Any] | None = None
+    ) -> tuple[float | bool, dict[str, Any] | str]:
         return self.client.call(quiz_ctxt, 'check', reply=reply, clue=clue)
 
     def cleanup(self, quiz_ctxt: dict[str, Any],
