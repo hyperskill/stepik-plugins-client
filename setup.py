@@ -14,7 +14,12 @@ version = __import__('stepik_plugins_client').get_version()
 setup(
     name='stepik-plugins-client',
     version=version,
-    packages=find_packages(include=['stepik_plugins_client*']),
+    packages=find_packages(
+        include=[
+            'stepik_plugins_client*',
+            'stepic_plugins*'
+        ]
+    ),
     include_package_data=True,
     author='Hyperskill Team',
     description='A client for Stepik plugins',

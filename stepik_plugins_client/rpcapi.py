@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 messaging.set_transport_defaults(control_exchange='stepic.rpc')
 
 ALLOWED_EXMODS = [
-    'stepik_plugins_client.exceptions'
+    'stepic_plugins.exceptions'
 ]
 
 
