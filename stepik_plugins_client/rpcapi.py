@@ -104,7 +104,7 @@ class QuizAPI(BaseAPI):
         """
         return self.client.call(quiz_ctxt, 'validate_source')
 
-    def async_init(self, quiz_ctxt: dict[str, Any]) -> str:
+    def async_init(self, quiz_ctxt: dict[str, Any]) -> dict[str, Any] | None:
         return self.client.call(quiz_ctxt, 'async_init')
 
     def generate(self,
