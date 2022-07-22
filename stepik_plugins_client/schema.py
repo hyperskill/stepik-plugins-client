@@ -28,10 +28,10 @@ def is_int_as_string(obj: Any) -> bool:
     return False
 
 
-def ensure_type(obj: Any, t: type) -> None:
+def ensure_type(obj: Any, type_: type) -> None:
     # if integer passed as string (EDY-1668)
-    if not isinstance(obj, t) and not (t == int and is_int_as_string(obj)):
-        raise FormatError(f'Expected {t.__name__}, got {obj}')
+    if not isinstance(obj, type_) and not (type_ == int and is_int_as_string(obj)):
+        raise FormatError(f'Expected {type_.__name__}, got {obj}')
 
 
 def build(scheme: Any, obj: Any) -> Any:
@@ -58,10 +58,10 @@ def build(scheme: Any, obj: Any) -> Any:
 class ParsedJSON:
     def __init__(self, scheme: dict[str, Any], obj: Any) -> None:
         self._original = obj
-        for k, sub_scheme in scheme.items():
-            if k not in obj:
-                raise FormatError(f'Expected key {k} in {obj}')
-            setattr(self, k, build(sub_scheme, obj[k]))
+        for key, sub_scheme in scheme.items():
+            if key not in obj:
+                raise FormatError(f'Expected key {key} in {obj}')
+            setattr(self, key, build(sub_scheme, obj[key]))
 
     def __repr__(self) -> str:
         return str(self._original)

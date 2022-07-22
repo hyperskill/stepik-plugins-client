@@ -61,6 +61,8 @@ ignore =
     CLST100,
 # @classmethod should not be used.
     CLST130,
+# Dynamically typed expressions (typing.Any) are disallowed
+    ANN401,
 
 count = True
 max-line-length = 100
