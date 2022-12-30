@@ -37,3 +37,4 @@ warn_unused_configs = true
 warn_unreachable = true
 warn_no_return = true
 show_error_codes = true
+explicit_package_bases = true

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from functools import cached_property, wraps
+from functools import wraps
 from typing import overload, TYPE_CHECKING
 
 import structlog
@@ -48,9 +48,7 @@ class WrappedEndpointMetaclass(type):
 
 
 class ReportedQuizAPI(rpcapi.QuizAPI, metaclass=WrappedEndpointMetaclass):
-    @cached_property
-    def list_computationally_hard_quizzes(self) -> str:
-        return super().list_computationally_hard_quizzes()
+    pass
 
 
 class ReportedCodeJailAPI(rpcapi.CodeJailAPI,

@@ -74,9 +74,9 @@ exclude =
     build,
     dist,
     node_modules,
-    apps/frontend/urls.py
-    venv
-    .mypy_cache
+    apps/frontend/urls.py,
+    venv,
+    .mypy_cache,
 import-order-style = smarkets
 application-import-names = alt,apps
 app-import-names = alt,apps

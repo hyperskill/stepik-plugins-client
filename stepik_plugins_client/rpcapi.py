@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from base64 import b64decode
+from functools import cached_property
 from typing import TYPE_CHECKING
 
 import oslo_messaging as messaging
@@ -132,6 +133,7 @@ class QuizAPI(BaseAPI):
                 clue: dict[str, Any] | None = None) -> str:
         return self.client.call(quiz_ctxt, 'cleanup', clue=clue)
 
+    @cached_property
     def list_computationally_hard_quizzes(self) -> str:
         return self.client.call({}, 'list_computationally_hard_quizzes')
 

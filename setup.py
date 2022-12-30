@@ -27,8 +27,8 @@ setup(
     url='https://stepik.org',
     install_requires=[
         'oslo.messaging==4.4.0',
-        'pytz==2022.1',
-        'structlog==22.1.0',
+        'pytz',
+        'structlog',
         'voluptuous==0.13.1',
     ],
 )
