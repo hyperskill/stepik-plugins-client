@@ -151,11 +151,6 @@ skip-string-normalization = true
 
 [tool.mypy]
 python_version = "3.11"
-plugins = [
-    "mypy_django_plugin.main",
-    "mypy_drf_plugin.main",
-    "numpy.typing.mypy_plugin"
-]
 check_untyped_defs = true
 disallow_any_generics = true
 disallow_untyped_calls = true
