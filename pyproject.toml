@@ -17,6 +17,7 @@ voluptuous = "^0.13.1"
 black = "^23.3.0"
 mypy = "^1.4.1"
 ruff = "^0.0.277"
+types-pytz = "^2023.3.0.0"
 
 [build-system]
 requires = ["poetry-core"]
