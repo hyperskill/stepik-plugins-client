@@ -1,40 +1,173 @@
-[tool.isort]
-line_length = 80
-multi_line_output = 6
-honor_noqa = true
-order_by_type = false
-use_parentheses = true
-combine_as_imports = true
-only_modified = true
-lexicographical = true
-group_by_package = true
-force_alphabetical_sort_within_sections = true
-add_imports = "from __future__ import annotations"
+[tool.poetry]
+name = "stepik-plugins-client"
+version = "1.1.0"
+description = "Stepik plugins SDK"
+authors = ["Hyperskill Team"]
+readme = "README.md"
+packages = [{include = "stepik_plugins_client"}]
 
-[tool.autopep8]
-in-place = true
-ignore = [
-    "E129"
+[tool.poetry.dependencies]
+python = "^3.11"
+oslo-messaging = "4.4.0"
+pytz = "^2023.3"
+structlog = "^23.1.0"
+voluptuous = "^0.13.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+mypy = "^1.4.1"
+ruff = "^0.0.277"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = [
+    "A",
+    "ANN",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "COM",
+    "D",
+    "DJ",
+    "DTZ",
+    "E",
+    "ERA",
+    "EXE",
+    "F",
+    "G",
+    "I",
+    "ICN",
+    "INP",
+    "INT",
+    "ISC",
+    "N",
+    "NPY",
+    "PD",
+    "PGH",
+    "PIE",
+    "PL",
+    "PT",
+    "PTH",
+    "PYI",
+    "Q",
+    "RET",
+    "RSE",
+    "RUF",
+    "S",
+    "SIM",
+    "SLF",
+    "T10",
+    "T20",
+    "TCH",
+    "TID",
+    "TRY",
+    "UP",
+    "W",
+    "YTT",
 ]
-max_line_length = 100
+ignore = [
+    "ANN002",
+    "ANN003",
+    "ANN101",
+    "ANN102",
+    "ANN401",
+    "COM812",
+    "D100",
+    "D101",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "EXE002",
+    "N806",
+    "S101",
+    "SIM108",
+    "TRY003",
+]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.mccabe]
+max-complexity = 14
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.pep8-naming]
+classmethod-decorators = [
+    "classmethod",
+    "django.utils.decorators.classonlymethod",
+    "django.utils.functional.classproperty"
+]
+
+[tool.ruff.pylint]
+max-args = 15
+max-branches = 14
+max-returns = 14
+max-statements = 71
+
+[tool.ruff.isort]
+combine-as-imports = true
+known-third-party = ["elasticsearch"]
+order-by-type = false
+required-imports = ["from __future__ import annotations"]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+skip-string-normalization = true
 
 [tool.mypy]
-python_version = 3.9
-
+python_version = "3.11"
+plugins = [
+    "mypy_django_plugin.main",
+    "mypy_drf_plugin.main",
+    "numpy.typing.mypy_plugin"
+]
 check_untyped_defs = true
 disallow_any_generics = true
 disallow_untyped_calls = true
 disallow_untyped_decorators = true
+explicit_package_bases = true
 ignore_errors = false
 ignore_missing_imports = true
 implicit_reexport = true
-strict_optional = true
 strict_equality = true
-no_implicit_optional = true
-warn_unused_ignores = true
-warn_redundant_casts = true
-warn_unused_configs = true
-warn_unreachable = true
+strict_optional = true
 warn_no_return = true
-show_error_codes = true
-explicit_package_bases = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true

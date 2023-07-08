@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 import oslo_messaging as messaging
 from pytz import UTC
 
-from stepik_plugins_client.exceptions import FormatError  # noqa: I202
+from stepik_plugins_client.exceptions import FormatError
 
 if TYPE_CHECKING:
     from typing import Any
@@ -73,14 +73,12 @@ def _is_primitive(obj: Any) -> bool:
 
 class RPCSerializer(messaging.NoOpSerializer):
     def serialize_entity(self, ctxt: dict[str, Any], entity: Any) -> Any:
-        if isinstance(entity, (tuple, list)):
+        """Serialize entity."""
+        if isinstance(entity, tuple | list):
             return [self.serialize_entity(ctxt, v) for v in entity]
 
         if isinstance(entity, dict):
-            return {
-                k: self.serialize_entity(ctxt, v)
-                for k, v in entity.items()
-            }
+            return {k: self.serialize_entity(ctxt, v) for k, v in entity.items()}
 
         if isinstance(entity, bytes):
             return {'_serialized.bytes': base64.b64encode(entity).decode()}
@@ -99,11 +97,12 @@ class RPCSerializer(messaging.NoOpSerializer):
             return {'_serialized.timedelta': entity.total_seconds()}
 
         if isinstance(entity, ParsedJSON):
-            return self.serialize_entity(ctxt, entity._original)
+            return self.serialize_entity(ctxt, entity._original)  # noqa: SLF001
 
         return entity
 
     def deserialize_entity(self, ctxt: dict[str, Any], entity: Any) -> Any:
+        """Deserialize entity."""
         if isinstance(entity, dict):
             if '_serialized.bytes' in entity:
                 return base64.b64decode(entity['_serialized.bytes'])
@@ -112,26 +111,15 @@ class RPCSerializer(messaging.NoOpSerializer):
                 return Decimal(entity['_serialized.decimal'])
 
             if '_serialized.datetime' in entity:
-                return datetime.datetime.fromtimestamp(
-                    entity['_serialized.datetime'],
-                    tz=UTC
-                )
+                return datetime.datetime.fromtimestamp(entity['_serialized.datetime'], tz=UTC)
 
             if '_serialized.date' in entity:
-                return datetime.datetime.fromtimestamp(
-                    entity['_serialized.date'],
-                    tz=UTC
-                ).date()
+                return datetime.datetime.fromtimestamp(entity['_serialized.date'], tz=UTC).date()
 
             if '_serialized.timedelta' in entity:
-                return datetime.timedelta(
-                    seconds=entity['_serialized.timedelta']
-                )
+                return datetime.timedelta(seconds=entity['_serialized.timedelta'])
 
-            return {
-                k: self.deserialize_entity(ctxt, v)
-                for k, v in entity.items()
-            }
+            return {k: self.deserialize_entity(ctxt, v) for k, v in entity.items()}
 
         if isinstance(entity, list):
             return [self.deserialize_entity(ctxt, v) for v in entity]

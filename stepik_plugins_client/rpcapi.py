@@ -2,22 +2,20 @@ from __future__ import annotations
 
 from base64 import b64decode
 from functools import cached_property
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
 import oslo_messaging as messaging
 from oslo_config import cfg
 from oslo_messaging.rpc.client import _client_opts
 
-from stepik_plugins_client.schema import RPCSerializer  # noqa: I202
+from stepik_plugins_client.schema import RPCSerializer
 
 if TYPE_CHECKING:
     from typing import Any
 
 messaging.set_transport_defaults(control_exchange='stepic.rpc')
 
-ALLOWED_EXMODS = [
-    'stepic_plugins.exceptions'
-]
+ALLOWED_EXMODS = ['stepic_plugins.exceptions']
 
 
 def set_default_response_timeout(timeout: int) -> None:
@@ -45,25 +43,23 @@ class BaseAPI:
     version: str
 
     #: A list of methods that are allowed to be called using service requests.
-    service_request_methods: list[str] = []
+    service_request_methods: tuple[str, ...]
 
     def __init__(self, transport_url: str) -> None:
         transport = messaging.get_transport(
-            cfg.CONF,
-            transport_url,
-            allowed_remote_exmods=ALLOWED_EXMODS
+            cfg.CONF, transport_url, allowed_remote_exmods=ALLOWED_EXMODS
         )
 
-        target = messaging.Target(
-            topic=self.topic,
-            namespace=self.namespace,
-            version=self.version
-        )
-        self.client = messaging.RPCClient(
-            transport,
-            target,
-            serializer=RPCSerializer()
-        )
+        target = messaging.Target(topic=self.topic, namespace=self.namespace, version=self.version)
+        self.client = messaging.RPCClient(transport, target, serializer=RPCSerializer())
+
+
+class CodeRunResult(TypedDict):
+    is_success: bool
+    stdout: str
+    stderr: str
+    time_limit_exceeded: bool
+    memory_limit_exceeded: bool
 
 
 class QuizAPI(BaseAPI):
@@ -74,12 +70,16 @@ class QuizAPI(BaseAPI):
     version = '0.2'
 
     def ping(self, msg: str) -> str:
+        """Ping RPC server."""
         return self.client.call({}, 'ping', msg=msg)
 
-    def call(self, quiz_ctxt: dict[str, Any],
-             name: str,
-             args: list[Any] | None = None,
-             kwargs: dict[str, Any] | None = None) -> str:
+    def call(
+        self,
+        quiz_ctxt: dict[str, Any],
+        name: str,
+        args: list[Any] | None = None,
+        kwargs: dict[str, Any] | None = None,
+    ) -> str:
         """Invoke an arbitrary method or get an attribute of a quiz instance.
 
         :param name: an attribute or a method name
@@ -87,13 +87,7 @@ class QuizAPI(BaseAPI):
         :param kwargs: keyword arguments to pass on to the method (a dict)
 
         """
-        return self.client.call(
-            quiz_ctxt,
-            'call',
-            name=name,
-            args=args,
-            kwargs=kwargs
-        )
+        return self.client.call(quiz_ctxt, 'call', name=name, args=args, kwargs=kwargs)
 
     def validate_source(self, quiz_ctxt: dict[str, Any]) -> str:
         """Validate source from the quiz context.
@@ -106,36 +100,46 @@ class QuizAPI(BaseAPI):
         return self.client.call(quiz_ctxt, 'validate_source')
 
     def async_init(self, quiz_ctxt: dict[str, Any]) -> dict[str, Any] | None:
+        """Async init."""
         return self.client.call(quiz_ctxt, 'async_init')
 
-    def generate(self,
-                 quiz_ctxt: dict[str, Any]) -> tuple[dict[str, Any], Any] | None:
+    def generate(self, quiz_ctxt: dict[str, Any]) -> tuple[dict[str, Any], Any] | None:
+        """Generate attempt."""
         return self.client.call(quiz_ctxt, 'generate')
 
-    def clean_reply(self, quiz_ctxt: dict[str, Any],
-                    reply: dict[str, Any],
-                    dataset: dict[str, Any] | None = None) -> dict[str, Any]:
-        return self.client.call(
-            quiz_ctxt,
-            'clean_reply',
-            reply=reply,
-            dataset=dataset
-        )
+    def clean_reply(
+        self,
+        quiz_ctxt: dict[str, Any],
+        reply: dict[str, Any],
+        dataset: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Clean user reply."""
+        return self.client.call(quiz_ctxt, 'clean_reply', reply=reply, dataset=dataset)
 
     def check(
-        self, quiz_ctxt: dict[str, Any],
-        reply: dict[str, Any],
-        clue: dict[str, Any] | None = None
+        self, quiz_ctxt: dict[str, Any], reply: dict[str, Any], clue: dict[str, Any] | None = None
     ) -> tuple[float | bool, dict[str, Any] | str]:
+        """Check user reply."""
         return self.client.call(quiz_ctxt, 'check', reply=reply, clue=clue)
 
-    def cleanup(self, quiz_ctxt: dict[str, Any],
-                clue: dict[str, Any] | None = None) -> str:
+    def cleanup(self, quiz_ctxt: dict[str, Any], clue: dict[str, Any] | None = None) -> str:
+        """Cleanup quiz context."""
         return self.client.call(quiz_ctxt, 'cleanup', clue=clue)
 
     @cached_property
     def list_computationally_hard_quizzes(self) -> str:
+        """Return list computationally hard quizzes."""
         return self.client.call({}, 'list_computationally_hard_quizzes')
+
+    def run_user_code(
+        self,
+        context: dict[str, Any],
+        code: str,
+        language: str,
+        stdin: str,
+    ) -> CodeRunResult:
+        """Run user code."""
+        return self.client.call(context, 'run_user_code', args=[code, language, stdin])
 
 
 class CodeJailAPI(BaseAPI):
@@ -145,11 +149,16 @@ class CodeJailAPI(BaseAPI):
     namespace = 'codejail'
     version = '0.2'
 
-    def run_code(self, command: str, code: str | None = None,
-                 files: list[str] | None = None,
-                 argv: list[Any] | None = None,
-                 stdin: str | None = None,
-                 limits: dict[str, Any] | None = None) -> dict[str, Any]:
+    def run_code(
+        self,
+        command: str,
+        code: str | None = None,
+        files: list[str] | None = None,
+        argv: list[Any] | None = None,
+        stdin: str | None = None,
+        limits: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Run code."""
         result = self.client.call(
             {},
             'run_code',
@@ -158,7 +167,7 @@ class CodeJailAPI(BaseAPI):
             files=files,
             argv=argv,
             stdin=stdin,
-            limits=limits
+            limits=limits,
         )
         result['stdout'] = b64decode(result['stdout'])
         result['stderr'] = b64decode(result['stderr'])
@@ -173,9 +182,10 @@ class UtilsAPI(BaseAPI):
     namespace = 'utils'
     version = '0.1'
 
-    service_request_methods = ['ping', 'preview_formula']
+    service_request_methods = ('ping', 'preview_formula')
 
     def ping(self, msg: str) -> str:
+        """Ping RPC server."""
         return self.client.call({}, 'ping', msg=msg)
 
     def preview_formula(self, formula: str) -> str:

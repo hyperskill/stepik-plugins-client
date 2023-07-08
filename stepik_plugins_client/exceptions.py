@@ -10,16 +10,18 @@ if TYPE_CHECKING:
 
 
 class PluginError(Exception):
-    """
-    The base class for all exceptions the plugins service can raise.
+    """The base class for all exceptions the plugins service can raise.
 
     Except an error message you can specify the code of the error and its
     context using optional `code` and `params` attributes.
     """
 
-    def __init__(self, message: str | None = None,
-                 code: str | None = None,
-                 params: dict[str, Any] | None = None) -> None:
+    def __init__(
+        self,
+        message: str | None = None,
+        code: str | None = None,
+        params: dict[str, Any] | None = None,
+    ) -> None:
         message = truncate_data(message, max_length=USER_OUTPUT_MAX_LENGTH)
         params = truncate_data(params, max_length=USER_OUTPUT_MAX_LENGTH)
         super().__init__(message, code, params)
