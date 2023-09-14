@@ -8,7 +8,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - run: sudo apt update
-      - run: sudo apt-get install pipx -y
+      - run: sudo apt-get install pipx gcc -y
       - run: pipx install poetry
       - uses: actions/setup-python@v4
         with:
@@ -27,7 +27,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - run: sudo apt update
-      - run: sudo apt-get install pipx -y
+      - run: sudo apt-get install pipx gcc -y
       - run: pipx install poetry
       - uses: actions/setup-python@v4
         with:
