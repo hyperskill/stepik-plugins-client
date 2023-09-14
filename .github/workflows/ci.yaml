@@ -14,12 +14,10 @@ jobs:
         with:
           python-version: "3.11"
           cache: 'poetry'
-      - name: Config poetry
-        run: poetry config virtualenvs.create false
       - name: Install dependencies
         run: poetry install --only main,dev --no-interaction --no-ansi --no-cache
       - name: Lint
-        run: ruff .
+        run: poetry run ruff .
   type_checking:
     name: Static type checking
     runs-on: [self-hosted, small]
@@ -33,9 +31,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: 'poetry'
-      - name: Config poetry
-        run: poetry config virtualenvs.create false
       - name: Install dependencies
         run: poetry install --only main,dev --no-interaction --no-ansi --no-cache
       - name: Mypy
-        run: mypy .
+        run: poetry run mypy .
