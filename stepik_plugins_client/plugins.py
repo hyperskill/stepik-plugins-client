@@ -24,7 +24,7 @@ class PluginTimeoutError(PluginError):
 
 
 class WrappedEndpointMetaclass(type):
-    def __new__(
+    def __new__(  # noqa: PYI034
         cls, name: str, bases: tuple[type, ...], dct: dict[str, Any]
     ) -> WrappedEndpointMetaclass:
         """Create API class."""
