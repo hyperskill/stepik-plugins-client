@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from base64 import b64decode
 from functools import cached_property
 from typing import TYPE_CHECKING, TypedDict
 
@@ -38,14 +37,15 @@ class BaseAPI:
 
     """
 
-    topic: str
+    default_topic: str
     namespace: str
     version: str
 
     #: A list of methods that are allowed to be called using service requests.
     service_request_methods: tuple[str, ...]
 
-    def __init__(self, transport_url: str) -> None:
+    def __init__(self, transport_url: str, topic: str | None = None) -> None:
+        self.topic = topic or self.default_topic
         transport = messaging.get_transport(
             cfg.CONF, transport_url, allowed_remote_exmods=ALLOWED_EXMODS
         )
@@ -65,7 +65,7 @@ class CodeRunResult(TypedDict):
 class QuizAPI(BaseAPI):
     """Client side of the quizzes RPC API."""
 
-    topic = 'plugins'
+    default_topic = 'plugins'
     namespace = 'quiz'
     version = '0.2'
 
@@ -142,43 +142,10 @@ class QuizAPI(BaseAPI):
         return self.client.call(context, 'run_user_code', args=[code, language, stdin])
 
 
-class CodeJailAPI(BaseAPI):
-    """Client side of the codejail RPC API."""
-
-    topic = 'plugins'
-    namespace = 'codejail'
-    version = '0.2'
-
-    def run_code(
-        self,
-        command: str,
-        code: str | None = None,
-        files: list[str] | None = None,
-        argv: list[Any] | None = None,
-        stdin: str | None = None,
-        limits: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
-        """Run code."""
-        result = self.client.call(
-            {},
-            'run_code',
-            command=command,
-            code=code,
-            files=files,
-            argv=argv,
-            stdin=stdin,
-            limits=limits,
-        )
-        result['stdout'] = b64decode(result['stdout'])
-        result['stderr'] = b64decode(result['stderr'])
-
-        return result
-
-
 class UtilsAPI(BaseAPI):
     """Client side of the utils RPC API."""
 
-    topic = 'plugins'
+    default_topic = 'plugins'
     namespace = 'utils'
     version = '0.1'
 

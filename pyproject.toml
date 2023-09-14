@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "stepik-plugins-client"
-version = "1.1.1"
+version = "1.2.0"
 description = "Stepik plugins SDK"
 authors = ["Hyperskill Team"]
 readme = "README.md"
@@ -16,7 +16,7 @@ voluptuous = "^0.13.1"
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
 mypy = "^1.4.1"
-ruff = "^0.0.277"
+ruff = "^0.0.289"
 types-pytz = "^2023.3.0.0"
 
 [build-system]

@@ -56,39 +56,27 @@ class ReportedQuizAPI(rpcapi.QuizAPI, metaclass=WrappedEndpointMetaclass):
     pass
 
 
-class ReportedCodeJailAPI(rpcapi.CodeJailAPI, metaclass=WrappedEndpointMetaclass):
-    pass
-
-
 class ReportedUtilsAPI(rpcapi.UtilsAPI, metaclass=WrappedEndpointMetaclass):
     pass
 
 
 @overload
 def _get_rpcapi_client(
-    name: Literal['quiz'], transport_url: str, timeout: int = 5 * 60
+    name: Literal['quiz'], transport_url: str, topic: str | None = None, timeout: int = 5 * 60
 ) -> ReportedQuizAPI:
     ...
 
 
 @overload
 def _get_rpcapi_client(
-    name: Literal['codejail'], transport_url: str, timeout: int = 5 * 60
-) -> ReportedCodeJailAPI:
-    ...
-
-
-@overload
-def _get_rpcapi_client(
-    name: Literal['utils'], transport_url: str, timeout: int = 5 * 60
+    name: Literal['utils'], transport_url: str, topic: str | None = None, timeout: int = 5 * 60
 ) -> ReportedUtilsAPI:
     ...
 
 
-def _get_rpcapi_client(name, transport_url, timeout=5 * 60):
+def _get_rpcapi_client(name, transport_url, topic=None, timeout=5 * 60):
     api_class_map = {
         'quiz': ReportedQuizAPI,
-        'codejail': ReportedCodeJailAPI,
         'utils': ReportedUtilsAPI,
     }
     rpc_api_class = api_class_map.get(name)
@@ -96,20 +84,19 @@ def _get_rpcapi_client(name, transport_url, timeout=5 * 60):
         raise ValueError('Incorrect RPC API client name')
     if name not in _RPC_API_CLIENTS:
         rpcapi.set_default_response_timeout(timeout)
-        _RPC_API_CLIENTS[name] = rpc_api_class(transport_url)
+        _RPC_API_CLIENTS[name] = rpc_api_class(transport_url, topic)
     return _RPC_API_CLIENTS[name]
 
 
-def quiz_rpcapi(transport_url: str, timeout: int = 5 * 60 * SECOND) -> ReportedQuizAPI:
+def quiz_rpcapi(
+    transport_url: str, topic: str | None = None, timeout: int = 5 * 60 * SECOND
+) -> ReportedQuizAPI:
     """Get client for the quizzes RPC API."""
-    return _get_rpcapi_client('quiz', transport_url, timeout)
+    return _get_rpcapi_client('quiz', transport_url, topic, timeout)
 
 
-def codejail_rpcapi(transport_url: str, timeout: int = 5 * 60 * SECOND) -> ReportedCodeJailAPI:
-    """Get client for the codejail RPC API."""
-    return _get_rpcapi_client('codejail', transport_url, timeout)
-
-
-def utils_rpcapi(transport_url: str, timeout: int = 5 * 60 * SECOND) -> ReportedUtilsAPI:
+def utils_rpcapi(
+    transport_url: str, topic: str | None = None, timeout: int = 5 * 60 * SECOND
+) -> ReportedUtilsAPI:
     """Get client for the utils RPC API."""
-    return _get_rpcapi_client('utils', transport_url, timeout)
+    return _get_rpcapi_client('utils', transport_url, topic, timeout)
