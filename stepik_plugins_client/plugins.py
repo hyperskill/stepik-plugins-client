@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 logger = structlog.get_logger()
 
-_RPC_API_CLIENTS: dict[str, rpcapi.BaseAPI] = {}
+_RPC_API_CLIENTS: dict[tuple[str, str, str], rpcapi.BaseAPI] = {}
 
 
 class PluginTimeoutError(PluginError):
@@ -82,10 +82,11 @@ def _get_rpcapi_client(name, transport_url, topic=None, timeout=5 * 60):
     rpc_api_class = api_class_map.get(name)
     if not rpc_api_class:
         raise ValueError('Incorrect RPC API client name')
+    key = (name, transport_url, topic)
     if name not in _RPC_API_CLIENTS:
         rpcapi.set_default_response_timeout(timeout)
-        _RPC_API_CLIENTS[name] = rpc_api_class(transport_url, topic)
-    return _RPC_API_CLIENTS[name]
+        _RPC_API_CLIENTS[key] = rpc_api_class(transport_url, topic)
+    return _RPC_API_CLIENTS[key]
 
 
 def quiz_rpcapi(
