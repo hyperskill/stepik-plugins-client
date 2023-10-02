@@ -40,3 +40,8 @@ class QuizSetUpError(PluginError):
 
 class UnknownPluginError(PluginError):
     pass
+
+
+class PluginTimeoutError(PluginError):
+    """Exception for timeout exceeded."""
+    pass

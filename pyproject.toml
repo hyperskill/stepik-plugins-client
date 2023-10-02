@@ -1,10 +1,13 @@
 [tool.poetry]
 name = "stepik-plugins-client"
-version = "1.2.0"
+version = "1.2.1"
 description = "Stepik plugins SDK"
 authors = ["Hyperskill Team"]
 readme = "README.md"
-packages = [{include = "stepik_plugins_client"}]
+packages = [
+    {include = "stepik_plugins_client"},
+    {include = "stepic_plugins"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
