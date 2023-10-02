@@ -44,4 +44,3 @@ class UnknownPluginError(PluginError):
 
 class PluginTimeoutError(PluginError):
     """Exception for timeout exceeded."""
-    pass
