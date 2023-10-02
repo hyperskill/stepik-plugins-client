@@ -8,7 +8,7 @@ from oslo_messaging import MessagingTimeout
 
 from stepik_plugins_client import rpcapi
 from stepik_plugins_client.constants import SECOND
-from stepik_plugins_client.exceptions import PluginError
+from stepik_plugins_client.exceptions import PluginTimeoutError
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -17,10 +17,6 @@ if TYPE_CHECKING:
 logger = structlog.get_logger()
 
 _RPC_API_CLIENTS: dict[tuple[str, str, str], rpcapi.BaseAPI] = {}
-
-
-class PluginTimeoutError(PluginError):
-    """Exception for timeout exceeded."""
 
 
 class WrappedEndpointMetaclass(type):
