@@ -12,15 +12,15 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.11"
 oslo-messaging = "4.6.1"
-pytz = "^2023.3"
-structlog = "^23.1.0"
+pytz = ">=2023.3"
+structlog = ">=23.1.0"
 voluptuous = "^0.13.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
 mypy = "^1.4.1"
 ruff = "^0.0.289"
-types-pytz = "^2023.3.0.0"
+types-pytz = ">=2023.3.0.0"
 
 [build-system]
 requires = ["poetry-core"]
