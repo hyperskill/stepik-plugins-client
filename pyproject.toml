@@ -14,7 +14,7 @@ python = "^3.11"
 oslo-messaging = "4.6.1"
 pytz = ">=2023.3"
 structlog = ">=23.1.0"
-voluptuous = "^0.13.1"
+voluptuous = "^0.14.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
