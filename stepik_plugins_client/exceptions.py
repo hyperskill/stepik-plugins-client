@@ -25,8 +25,8 @@ class PluginError(Exception):
         message = truncate_data(message, max_length=USER_OUTPUT_MAX_LENGTH)
         params = truncate_data(params, max_length=USER_OUTPUT_MAX_LENGTH)
         super().__init__(message, code, params)
-        self.message = message or ''
-        self.code = code or ''
+        self.message = message or ""
+        self.code = code or ""
         self.params = params or {}
 
 

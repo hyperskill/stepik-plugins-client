@@ -12,9 +12,9 @@ from stepik_plugins_client.schema import RPCSerializer
 if TYPE_CHECKING:
     from typing import Any
 
-messaging.set_transport_defaults(control_exchange='stepic.rpc')
+messaging.set_transport_defaults(control_exchange="stepic.rpc")
 
-ALLOWED_EXMODS = ['stepic_plugins.exceptions']
+ALLOWED_EXMODS = ["stepic_plugins.exceptions"]
 
 
 def set_default_response_timeout(timeout: int) -> None:
@@ -26,7 +26,7 @@ def set_default_response_timeout(timeout: int) -> None:
 
     """
     cfg.CONF.register_opts(_client_opts)
-    cfg.CONF.set_default('rpc_response_timeout', timeout)
+    cfg.CONF.set_default("rpc_response_timeout", timeout)
 
 
 class BaseAPI:
@@ -65,13 +65,13 @@ class CodeRunResult(TypedDict):
 class QuizAPI(BaseAPI):
     """Client side of the quizzes RPC API."""
 
-    default_topic = 'plugins'
-    namespace = 'quiz'
-    version = '0.2'
+    default_topic = "plugins"
+    namespace = "quiz"
+    version = "0.2"
 
     def ping(self, msg: str) -> str:
         """Ping RPC server."""
-        return self.client.call({}, 'ping', msg=msg)
+        return self.client.call({}, "ping", msg=msg)
 
     def call(
         self,
@@ -87,7 +87,7 @@ class QuizAPI(BaseAPI):
         :param kwargs: keyword arguments to pass on to the method (a dict)
 
         """
-        return self.client.call(quiz_ctxt, 'call', name=name, args=args, kwargs=kwargs)
+        return self.client.call(quiz_ctxt, "call", name=name, args=args, kwargs=kwargs)
 
     def validate_source(self, quiz_ctxt: dict[str, Any]) -> str:
         """Validate source from the quiz context.
@@ -97,15 +97,15 @@ class QuizAPI(BaseAPI):
         :raises FormatError: if source is not valid
 
         """
-        return self.client.call(quiz_ctxt, 'validate_source')
+        return self.client.call(quiz_ctxt, "validate_source")
 
     def async_init(self, quiz_ctxt: dict[str, Any]) -> dict[str, Any] | None:
         """Async init."""
-        return self.client.call(quiz_ctxt, 'async_init')
+        return self.client.call(quiz_ctxt, "async_init")
 
     def generate(self, quiz_ctxt: dict[str, Any]) -> tuple[dict[str, Any], Any] | None:
         """Generate attempt."""
-        return self.client.call(quiz_ctxt, 'generate')
+        return self.client.call(quiz_ctxt, "generate")
 
     def clean_reply(
         self,
@@ -114,22 +114,22 @@ class QuizAPI(BaseAPI):
         dataset: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Clean user reply."""
-        return self.client.call(quiz_ctxt, 'clean_reply', reply=reply, dataset=dataset)
+        return self.client.call(quiz_ctxt, "clean_reply", reply=reply, dataset=dataset)
 
     def check(
         self, quiz_ctxt: dict[str, Any], reply: dict[str, Any], clue: dict[str, Any] | None = None
     ) -> tuple[float | bool, dict[str, Any] | str]:
         """Check user reply."""
-        return self.client.call(quiz_ctxt, 'check', reply=reply, clue=clue)
+        return self.client.call(quiz_ctxt, "check", reply=reply, clue=clue)
 
     def cleanup(self, quiz_ctxt: dict[str, Any], clue: dict[str, Any] | None = None) -> str:
         """Cleanup quiz context."""
-        return self.client.call(quiz_ctxt, 'cleanup', clue=clue)
+        return self.client.call(quiz_ctxt, "cleanup", clue=clue)
 
     @cached_property
     def list_computationally_hard_quizzes(self) -> str:
         """Return list computationally hard quizzes."""
-        return self.client.call({}, 'list_computationally_hard_quizzes')
+        return self.client.call({}, "list_computationally_hard_quizzes")
 
     def run_user_code(
         self,
@@ -139,22 +139,22 @@ class QuizAPI(BaseAPI):
         stdin: str | None = None,
     ) -> CodeRunResult:
         """Run user code."""
-        return self.client.call(context, 'run_user_code', args=[code, language, stdin])
+        return self.client.call(context, "run_user_code", args=[code, language, stdin])
 
 
 class UtilsAPI(BaseAPI):
     """Client side of the utils RPC API."""
 
-    default_topic = 'plugins'
-    namespace = 'utils'
-    version = '0.1'
+    default_topic = "plugins"
+    namespace = "utils"
+    version = "0.1"
 
-    service_request_methods = ('ping', 'preview_formula')
+    service_request_methods = ("ping", "preview_formula")
 
     def ping(self, msg: str) -> str:
         """Ping RPC server."""
-        return self.client.call({}, 'ping', msg=msg)
+        return self.client.call({}, "ping", msg=msg)
 
     def preview_formula(self, formula: str) -> str:
         """Convert the given formula to LaTeX representation."""
-        return self.client.call({}, 'preview_formula', formula=formula)
+        return self.client.call({}, "preview_formula", formula=formula)

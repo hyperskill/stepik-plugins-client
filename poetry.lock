@@ -279,19 +279,18 @@ wmi = ["wmi (>=1.5.1,<2.0.0)"]
 
 [[package]]
 name = "eventlet"
-version = "0.34.2"
+version = "0.34.3"
 description = "Highly concurrent networking library"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "eventlet-0.34.2-py3-none-any.whl", hash = "sha256:eca0114398d3133f94d16590d205bbb010668a3bc7453fddadb51d63e8c1bac2"},
-    {file = "eventlet-0.34.2.tar.gz", hash = "sha256:2115c7c6742e6893bf1347f82915572f8895c911cb5abaad4d3596a7daa847cc"},
+    {file = "eventlet-0.34.3-py3-none-any.whl", hash = "sha256:3093f2822ce2f40792bf9aa7eb8920fe3b90db785d3bea7640c50412969dcfd7"},
+    {file = "eventlet-0.34.3.tar.gz", hash = "sha256:ed2d28a64414a001894b3baf5b650f2c9596b00d57f57d4d7a38f9d3d0c252e8"},
 ]
 
 [package.dependencies]
 dnspython = ">=1.15.0"
 greenlet = ">=1.0"
-six = ">=1.10.0"
 
 [package.extras]
 dev = ["black", "build", "commitizen", "isort", "pip-tools", "pre-commit", "twine"]
@@ -449,13 +448,13 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "kombu"
-version = "5.3.4"
+version = "5.3.5"
 description = "Messaging library for Python."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "kombu-5.3.4-py3-none-any.whl", hash = "sha256:63bb093fc9bb80cfb3a0972336a5cec1fa7ac5f9ef7e8237c6bf8dda9469313e"},
-    {file = "kombu-5.3.4.tar.gz", hash = "sha256:0bb2e278644d11dea6272c17974a3dbb9688a949f3bb60aeb5b791329c44fadc"},
+    {file = "kombu-5.3.5-py3-none-any.whl", hash = "sha256:0eac1bbb464afe6fb0924b21bf79460416d25d8abc52546d4f16cad94f789488"},
+    {file = "kombu-5.3.5.tar.gz", hash = "sha256:30e470f1a6b49c70dc6f6d13c3e4cc4e178aa6c469ceb6bcd55645385fc84b93"},
 ]
 
 [package.dependencies]

@@ -30,8 +30,9 @@ def is_int_as_string(obj: Any) -> bool:
 
 def ensure_type(obj: Any, type_: type) -> None:
     # if integer passed as string (EDY-1668)
-    if not isinstance(obj, type_) and not (type_ == int and is_int_as_string(obj)):
-        raise FormatError(f'Expected {type_.__name__}, got {obj}')
+    if not isinstance(obj, type_) and not (type_ == int and is_int_as_string(obj)):  # noqa: E721
+        msg = f"Expected {type_.__name__}, got {obj}"
+        raise FormatError(msg)
 
 
 def build(scheme: Any, obj: Any) -> Any:
@@ -41,7 +42,7 @@ def build(scheme: Any, obj: Any) -> Any:
     if _is_primitive(scheme):
         ensure_type(obj, scheme)
         # if integer passed as string (EDY-1668)
-        if scheme == int and is_int_as_string(obj):
+        if scheme == int and is_int_as_string(obj):  # noqa: E721
             return int(obj)
         return obj
 
@@ -49,7 +50,7 @@ def build(scheme: Any, obj: Any) -> Any:
         ensure_type(obj, list)
         return [build(scheme[0], x) for x in obj]
 
-    assert isinstance(scheme, dict), 'Scheme should be dict'
+    assert isinstance(scheme, dict), "Scheme should be dict"
     ensure_type(obj, dict)
 
     return ParsedJSON(scheme, obj)
@@ -60,7 +61,8 @@ class ParsedJSON:
         self._original = obj
         for key, sub_scheme in scheme.items():
             if key not in obj:
-                raise FormatError(f'Expected key {key} in {obj}')
+                msg = f"Expected key {key} in {obj}"
+                raise FormatError(msg)
             setattr(self, key, build(sub_scheme, obj[key]))
 
     def __repr__(self) -> str:
@@ -68,7 +70,7 @@ class ParsedJSON:
 
 
 def _is_primitive(obj: Any) -> bool:
-    return obj in [str, bytes, int, float, bool]
+    return obj in {str, bytes, int, float, bool}
 
 
 class RPCSerializer(messaging.NoOpSerializer):
@@ -81,43 +83,43 @@ class RPCSerializer(messaging.NoOpSerializer):
             return {k: self.serialize_entity(ctxt, v) for k, v in entity.items()}
 
         if isinstance(entity, bytes):
-            return {'_serialized.bytes': base64.b64encode(entity).decode()}
+            return {"_serialized.bytes": base64.b64encode(entity).decode()}
 
         if isinstance(entity, Decimal):
-            return {'_serialized.decimal': str(entity)}
+            return {"_serialized.decimal": str(entity)}
 
         if isinstance(entity, datetime.datetime):
             # doesn't preserve timezone
-            return {'_serialized.datetime': entity.timestamp()}
+            return {"_serialized.datetime": entity.timestamp()}
 
         if isinstance(entity, datetime.date):
-            return {'_serialized.date': int(time.mktime(entity.timetuple()))}
+            return {"_serialized.date": int(time.mktime(entity.timetuple()))}
 
         if isinstance(entity, datetime.timedelta):
-            return {'_serialized.timedelta': entity.total_seconds()}
+            return {"_serialized.timedelta": entity.total_seconds()}
 
         if isinstance(entity, ParsedJSON):
-            return self.serialize_entity(ctxt, entity._original)  # noqa: SLF001
+            return self.serialize_entity(ctxt, entity._original)
 
         return entity
 
     def deserialize_entity(self, ctxt: dict[str, Any], entity: Any) -> Any:
         """Deserialize entity."""
         if isinstance(entity, dict):
-            if '_serialized.bytes' in entity:
-                return base64.b64decode(entity['_serialized.bytes'])
+            if "_serialized.bytes" in entity:
+                return base64.b64decode(entity["_serialized.bytes"])
 
-            if '_serialized.decimal' in entity:
-                return Decimal(entity['_serialized.decimal'])
+            if "_serialized.decimal" in entity:
+                return Decimal(entity["_serialized.decimal"])
 
-            if '_serialized.datetime' in entity:
-                return datetime.datetime.fromtimestamp(entity['_serialized.datetime'], tz=UTC)
+            if "_serialized.datetime" in entity:
+                return datetime.datetime.fromtimestamp(entity["_serialized.datetime"], tz=UTC)
 
-            if '_serialized.date' in entity:
-                return datetime.datetime.fromtimestamp(entity['_serialized.date'], tz=UTC).date()
+            if "_serialized.date" in entity:
+                return datetime.datetime.fromtimestamp(entity["_serialized.date"], tz=UTC).date()
 
-            if '_serialized.timedelta' in entity:
-                return datetime.timedelta(seconds=entity['_serialized.timedelta'])
+            if "_serialized.timedelta" in entity:
+                return datetime.timedelta(seconds=entity["_serialized.timedelta"])
 
             return {k: self.deserialize_entity(ctxt, v) for k, v in entity.items()}
 
