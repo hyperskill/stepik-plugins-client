@@ -19,7 +19,7 @@ voluptuous = "^0.14.1"
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
 mypy = "^1.4.1"
-ruff = "^0.1.13"
+ruff = "^0.1.14"
 types-pytz = ">=2023.3.0.0"
 
 [build-system]
