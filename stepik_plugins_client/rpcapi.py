@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, TypedDict
 
 import oslo_messaging as messaging
 from oslo_config import cfg
-from oslo_messaging.rpc.client import _client_opts
+from oslo_messaging.rpc.client import _client_opts  # noqa: PLC2701
 
 from stepik_plugins_client.schema import RPCSerializer
 
