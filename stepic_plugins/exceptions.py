@@ -9,9 +9,9 @@ from stepik_plugins_client.exceptions import (
 )
 
 __all__ = [
-    "PluginError",
     "FormatError",
+    "PluginError",
+    "PluginTimeoutError",
     "QuizSetUpError",
     "UnknownPluginError",
-    "PluginTimeoutError",
 ]
