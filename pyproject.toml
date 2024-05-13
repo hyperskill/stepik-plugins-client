@@ -17,7 +17,7 @@ structlog = ">=23.1.0"
 voluptuous = "^0.14.2"
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^1.4.1"
+mypy = "^1.10.0"
 ruff = "^0.1.14"
 types-pytz = ">=2023.3.0.0"
 
@@ -174,3 +174,7 @@ warn_redundant_casts = true
 warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true
+
+exclude = [
+    "venv"
+]
