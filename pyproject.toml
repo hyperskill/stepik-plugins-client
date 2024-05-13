@@ -18,7 +18,7 @@ voluptuous = "^0.14.2"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.10.0"
-ruff = "^0.1.14"
+ruff = "^0.4.4"
 types-pytz = ">=2023.3.0.0"
 
 [build-system]
@@ -26,85 +26,6 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-select = [
-    "ALL",
-]
-ignore = [
-    "A001",
-    "A003",
-    "ANN001",
-    "ANN002",
-    "ANN003",
-    "ANN101",
-    "ANN102",
-    "ANN201",
-    "ANN202",
-    "ANN204",
-    "ANN206",
-    "ANN401",
-    "ARG001",
-    "ARG002",
-    "B023",
-    "BLE001",
-    "COM812",
-    "CPY001",
-    "D100",
-    "D101",
-    "D102",
-    "D103",
-    "D104",
-    "D105",
-    "D106",
-    "D107",
-    "D205",
-    "DTZ001",
-    "DTZ004",
-    "DTZ006",
-    "DTZ012",
-    "E203",
-    "E741",
-    "EXE002",
-    "F403",
-    "FBT001",
-    "FBT002",
-    "FBT003",
-    "FIX002",
-    "INP001",
-    "ISC001",
-    "N802",
-    "N806",
-    "N818",
-    "PIE804",
-    "PLC1901",
-    "PLR2004",
-    "PLR6301",
-    "PLW0603",
-    "PLW2901",
-    "PT011",
-    "PT012",
-    "PTH100",
-    "PTH102",
-    "PTH110",
-    "PTH111",
-    "PTH112",
-    "PTH118",
-    "PTH120",
-    "PTH123",
-    "RUF012",
-    "S101",
-    "S105",
-    "S110",
-    "S311",
-    "S602",
-    "S603",
-    "S607",
-    "SIM108",
-    "SLF001",
-    "TD002",
-    "TD003",
-    "TRY003",
-    "TRY301",
-]
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
@@ -129,36 +50,75 @@ exclude = [
     "node_modules",
     "venv",
 ]
-line-length = 100
-target-version = "py311"
+target-version = "py312"
 
-[tool.ruff.mccabe]
-max-complexity = 14
+[tool.ruff.lint]
+select = [
+    "ALL",
+]
 
-[tool.ruff.pydocstyle]
+ignore = [
+    "ANN002", # Missing type annotation for `*args`
+    "ANN003", # Missing type annotation for `**kwargs`
+    "ANN101", # Missing type annotation for `self` in method
+    "ANN102", # Missing type annotation for `cls` in classmethod
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in
+    "CPY001", # Missing copyright notice at top of file
+    "D100", # Missing docstring in public module
+    "D101", # Missing docstring in public class
+    "D103", # Missing docstring in public function
+    "D104", # Missing docstring in public package
+    "D105", # Missing docstring in magic method
+    "D107", # Missing docstring in __init__
+    "E203", # Whitespace before ':'
+    "S101", # Use of `assert` detected
+    # Ruff format recommend disable trid rule
+    "COM812", # Trailing comma missing
+    "COM819", # Checks for the presence of prohibited trailing commas
+    "D206", # Docstring should be indented with spaces, not tabs
+    "D300", # Use """triple double quotes"""
+    "E111", # Indentation is not a multiple of four
+    "E114", # Indentation is not a multiple of four (comment)
+    "E117", # Over-indented
+    "ISC001", # Conflict with ruff format | Checks for implicitly concatenated strings on a single line.
+    "ISC002", # Checks for implicitly concatenated strings across multiple lines.
+    "Q000", # Conflict with ruff format | Remove bad quotes
+    "Q001", # Checks for multiline strings that use single quotes or double quotes
+    "Q002", # Checks for docstrings that use single quotes or double quotes
+    "Q003", # Conflict with ruff format | Change outer quotes to avoid escaping inner quotes
+    "W191", # Indentation contains tabs
+]
+
+[tool.ruff.lint.per-file-ignores]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 9
+
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.ruff.pep8-naming]
+[tool.ruff.lint.pep8-naming]
 classmethod-decorators = [
     "classmethod",
     "django.utils.decorators.classonlymethod",
     "django.utils.functional.classproperty"
 ]
 
-[tool.ruff.pylint]
-max-args = 15
-max-branches = 14
-max-returns = 14
-max-statements = 71
+[tool.ruff.lint.pylint]
+max-args = 5
+max-branches = 8
+max-returns = 9
+max-statements = 9
+max-locals = 4
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 combine-as-imports = true
 known-third-party = ["elasticsearch"]
 order-by-type = false
 required-imports = ["from __future__ import annotations"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 check_untyped_defs = true
 disallow_any_generics = true
 disallow_untyped_calls = true

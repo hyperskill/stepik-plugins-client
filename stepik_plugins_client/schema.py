@@ -99,7 +99,7 @@ class RPCSerializer(messaging.NoOpSerializer):
             return {"_serialized.timedelta": entity.total_seconds()}
 
         if isinstance(entity, ParsedJSON):
-            return self.serialize_entity(ctxt, entity._original)
+            return self.serialize_entity(ctxt, entity._original)  # noqa: SLF001
 
         return entity
 
@@ -113,10 +113,14 @@ class RPCSerializer(messaging.NoOpSerializer):
                 return Decimal(entity["_serialized.decimal"])
 
             if "_serialized.datetime" in entity:
-                return datetime.datetime.fromtimestamp(entity["_serialized.datetime"], tz=UTC)
+                return datetime.datetime.fromtimestamp(
+                    entity["_serialized.datetime"], tz=UTC
+                )
 
             if "_serialized.date" in entity:
-                return datetime.datetime.fromtimestamp(entity["_serialized.date"], tz=UTC).date()
+                return datetime.datetime.fromtimestamp(
+                    entity["_serialized.date"], tz=UTC
+                ).date()
 
             if "_serialized.timedelta" in entity:
                 return datetime.timedelta(seconds=entity["_serialized.timedelta"])

@@ -59,16 +59,20 @@ class ReportedUtilsAPI(rpcapi.UtilsAPI, metaclass=WrappedEndpointMetaclass):
 
 @overload
 def _get_rpcapi_client(
-    name: Literal["quiz"], transport_url: str, topic: str | None = None, timeout: int = 5 * 60
-) -> ReportedQuizAPI:
-    ...
+    name: Literal["quiz"],
+    transport_url: str,
+    topic: str | None = None,
+    timeout: int = 5 * 60,
+) -> ReportedQuizAPI: ...
 
 
 @overload
 def _get_rpcapi_client(
-    name: Literal["utils"], transport_url: str, topic: str | None = None, timeout: int = 5 * 60
-) -> ReportedUtilsAPI:
-    ...
+    name: Literal["utils"],
+    transport_url: str,
+    topic: str | None = None,
+    timeout: int = 5 * 60,
+) -> ReportedUtilsAPI: ...
 
 
 def _get_rpcapi_client(name, transport_url, topic=None, timeout=5 * 60):

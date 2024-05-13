@@ -19,7 +19,7 @@ jobs:
         run: poetry install --only main,dev --no-interaction --no-ansi --no-cache
 
       - name: Lint
-        run: poetry run ruff --unsafe-fixes --preview --fix .
+        run: poetry run ruff check --fix --unsafe-fixes --preview .
 
   type_checking:
     name: Static type checking

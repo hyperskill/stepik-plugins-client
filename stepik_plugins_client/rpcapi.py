@@ -50,7 +50,9 @@ class BaseAPI:
             cfg.CONF, transport_url, allowed_remote_exmods=ALLOWED_EXMODS
         )
 
-        target = messaging.Target(topic=self.topic, namespace=self.namespace, version=self.version)
+        target = messaging.Target(
+            topic=self.topic, namespace=self.namespace, version=self.version
+        )
         self.client = messaging.RPCClient(transport, target, serializer=RPCSerializer())
 
 
@@ -117,12 +119,17 @@ class QuizAPI(BaseAPI):
         return self.client.call(quiz_ctxt, "clean_reply", reply=reply, dataset=dataset)
 
     def check(
-        self, quiz_ctxt: dict[str, Any], reply: dict[str, Any], clue: dict[str, Any] | None = None
+        self,
+        quiz_ctxt: dict[str, Any],
+        reply: dict[str, Any],
+        clue: dict[str, Any] | None = None,
     ) -> tuple[float | bool, dict[str, Any] | str]:
         """Check user reply."""
         return self.client.call(quiz_ctxt, "check", reply=reply, clue=clue)
 
-    def cleanup(self, quiz_ctxt: dict[str, Any], clue: dict[str, Any] | None = None) -> str:
+    def cleanup(
+        self, quiz_ctxt: dict[str, Any], clue: dict[str, Any] | None = None
+    ) -> str:
         """Cleanup quiz context."""
         return self.client.call(quiz_ctxt, "cleanup", clue=clue)
 
