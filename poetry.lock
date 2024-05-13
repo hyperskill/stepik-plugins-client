@@ -1463,5 +1463,5 @@ test = ["gevent (>=20.6.2)"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.11"
-content-hash = "bdba3d624a0811f566819646ebcfffaf0d8bceed8e1eff5b979da4a0aab70f15"
+python-versions = "^3.12"
+content-hash = "e3735aaa75e5b631c936be86ddd9a34719318f5ecde6fa4fb580a017991ddaa6"
