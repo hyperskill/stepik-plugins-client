@@ -146,7 +146,9 @@ class QuizAPI(BaseAPI):
         stdin: str | None = None,
     ) -> CodeRunResult:
         """Run user code."""
-        return self.client.call(context, "run_user_code", args=[code, language, stdin])
+        return self.client.call(
+            context, "run_user_code", code=code, language=language, stdin=stdin
+        )
 
 
 class UtilsAPI(BaseAPI):
