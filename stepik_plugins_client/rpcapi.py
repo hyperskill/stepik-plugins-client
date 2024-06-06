@@ -53,7 +53,9 @@ class BaseAPI:
         target = messaging.Target(
             topic=self.topic, namespace=self.namespace, version=self.version
         )
-        self.client = messaging.RPCClient(transport, target, serializer=RPCSerializer())
+        self.client = messaging.get_rpc_client(
+            transport, target, serializer=RPCSerializer()
+        )
 
 
 class CodeRunResult(TypedDict):
