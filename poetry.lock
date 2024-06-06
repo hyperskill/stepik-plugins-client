@@ -525,17 +525,6 @@ files = [
 ]
 
 [[package]]
-name = "monotonic"
-version = "1.6"
-description = "An implementation of time.monotonic() for Python 2 & < 3.3"
-optional = false
-python-versions = "*"
-files = [
-    {file = "monotonic-1.6-py2.py3-none-any.whl", hash = "sha256:68687e19a14f11f26d140dd5c86f3dba4bf5df58003000ed467e0e2a69bca96c"},
-    {file = "monotonic-1.6.tar.gz", hash = "sha256:3a55207bcfed53ddd5c5bae174524062935efed17792e9de2ad0205ce9ad63f7"},
-]
-
-[[package]]
 name = "msgpack"
 version = "1.0.8"
 description = "MessagePack serializer"
@@ -809,42 +798,57 @@ test = ["coverage (>=4.5.1)", "eventlet (>=0.30.1)", "fixtures (>=3.0.0)", "oslo
 
 [[package]]
 name = "oslo-messaging"
-version = "6.5.0"
+version = "14.8.0"
 description = "Oslo Messaging API"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
-    {file = "oslo.messaging-6.5.0-py2.py3-none-any.whl", hash = "sha256:fc63071725ea41650d639f8377cf0ef93bd7bb20f40138bd2a9e29fec9c329cb"},
-    {file = "oslo.messaging-6.5.0.tar.gz", hash = "sha256:2f41864ab0dacf1d9de9e381e28a902204646985485a168fa1c7869da39d9351"},
+    {file = "oslo.messaging-14.8.0-py3-none-any.whl", hash = "sha256:9772549c6477658d5b86b688b1751ae86bdad0e3e9e3dc4588e42aaa5d36b802"},
+    {file = "oslo.messaging-14.8.0.tar.gz", hash = "sha256:f64d68b8156c08fdaca76eb1d65ad341aa116a29b0813e45f705dec0a72595bf"},
 ]
 
 [package.dependencies]
-amqp = ">=2.1.1,<2.1.4 || >2.1.4"
+amqp = ">=2.5.2"
 cachetools = ">=2.0.0"
 debtcollector = ">=1.2.0"
 futurist = ">=1.2.0"
-kombu = ">=4.0.0,<4.0.2 || >4.0.2"
-monotonic = ">=0.6"
+kombu = ">=4.6.6"
 "oslo.config" = ">=5.2.0"
-"oslo.i18n" = ">=3.15.3"
+"oslo.context" = ">=5.3.0"
 "oslo.log" = ">=3.36.0"
+"oslo.metrics" = ">=0.2.1"
 "oslo.middleware" = ">=3.31.0"
-"oslo.serialization" = ">=2.18.0,<2.19.1 || >2.19.1"
-"oslo.service" = ">=1.24.0,<1.28.1 || >1.28.1"
-"oslo.utils" = ">=3.33.0"
-pbr = ">=2.0.0,<2.1.0 || >2.1.0"
+"oslo.serialization" = ">=2.18.0"
+"oslo.service" = ">=1.24.0"
+"oslo.utils" = ">=3.37.0"
+pbr = ">=2.0.0"
 pyngus = {version = ">=2.2.0", optional = true, markers = "extra == \"amqp1\""}
-PyYAML = ">=3.12"
-six = ">=1.10.0"
+PyYAML = ">=3.13"
 stevedore = ">=1.20.0"
-tenacity = ">=4.4.0"
 WebOb = ">=1.7.1"
 
 [package.extras]
 amqp1 = ["pyngus (>=2.2.0)"]
-kafka = ["kafka-python (>=1.3.1)", "tenacity (>=4.4.0)"]
-test = ["bandit (>=1.1.0)", "coverage (>=4.0,!=4.4)", "eventlet (>=0.18.2,!=0.18.3,!=0.20.1)", "fixtures (>=3.0.0)", "greenlet (>=0.4.10)", "hacking (>=0.12.0,!=0.13.0,<0.14)", "kafka-python (>=1.3.1)", "mock (>=2.0.0)", "oslotest (>=3.2.0)", "pifpaf (>=0.10.0)", "pyngus (>=2.2.0)", "python-subunit (>=1.0.0)", "pyzmq (>=14.3.1)", "redis (>=2.10.0)", "testrepository (>=0.0.18)", "testscenarios (>=0.4)", "testtools (>=2.2.0)"]
-zmq = ["pyzmq (>=14.3.1)", "redis (>=2.10.0)", "tenacity (>=4.4.0)"]
+kafka = ["confluent-kafka (>=1.3.0)"]
+test = ["bandit (>=1.7.0,<1.8.0)", "confluent-kafka (>=1.3.0)", "coverage (>=4.0)", "eventlet (>=0.23.0)", "fixtures (>=3.0.0)", "greenlet (>=0.4.15)", "hacking (>=6.1.0,<=6.2.0)", "oslotest (>=3.2.0)", "pifpaf (>=2.2.0)", "pre-commit (>=2.6.0)", "pyngus (>=2.2.0)", "stestr (>=2.0.0)", "testscenarios (>=0.4)", "testtools (>=2.2.0)"]
+
+[[package]]
+name = "oslo-metrics"
+version = "0.8.0"
+description = "Oslo Metrics API"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "oslo.metrics-0.8.0-py3-none-any.whl", hash = "sha256:ef4785ae5387cf2013565927eefb87237cdf10d28352338434d2bac3ef71ab25"},
+    {file = "oslo.metrics-0.8.0.tar.gz", hash = "sha256:ea31fd3b2ac76dcbe25d935e0616ad1893e3cbc53746e9fb9d5f5e1df04f943c"},
+]
+
+[package.dependencies]
+"oslo.config" = ">=6.9.0"
+"oslo.log" = ">=3.44.0"
+"oslo.utils" = ">=3.41.0"
+pbr = ">=3.1.1"
+prometheus-client = ">=0.6.0"
 
 [[package]]
 name = "oslo-middleware"
@@ -990,6 +994,20 @@ files = [
     {file = "pbr-6.0.0-py2.py3-none-any.whl", hash = "sha256:4a7317d5e3b17a3dccb6a8cfe67dab65b20551404c52c8ed41279fa4f0cb4cda"},
     {file = "pbr-6.0.0.tar.gz", hash = "sha256:d1377122a5a00e2f940ee482999518efe16d745d423a670c27773dfbc3c9a7d9"},
 ]
+
+[[package]]
+name = "prometheus-client"
+version = "0.20.0"
+description = "Python client for the Prometheus monitoring system."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "prometheus_client-0.20.0-py3-none-any.whl", hash = "sha256:cde524a85bce83ca359cc837f28b8c0db5cac7aa653a588fd7e84ba061c329e7"},
+    {file = "prometheus_client-0.20.0.tar.gz", hash = "sha256:287629d00b147a32dcb2be0b9df905da599b2d82f80377083ec8463309a4bb89"},
+]
+
+[package.extras]
+twisted = ["twisted"]
 
 [[package]]
 name = "pycparser"
@@ -1295,21 +1313,6 @@ tests = ["freezegun (>=0.2.8)", "pretend", "pytest (>=6.0)", "pytest-asyncio (>=
 typing = ["mypy (>=1.4)", "rich", "twisted"]
 
 [[package]]
-name = "tenacity"
-version = "8.3.0"
-description = "Retry code until it succeeds"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "tenacity-8.3.0-py3-none-any.whl", hash = "sha256:3649f6443dbc0d9b01b9d8020a9c4ec7a1ff5f6f3c6c8a036ef371f573fe9185"},
-    {file = "tenacity-8.3.0.tar.gz", hash = "sha256:953d4e6ad24357bceffbc9707bc74349aca9d245f68eb65419cf0c249a1949a2"},
-]
-
-[package.extras]
-doc = ["reno", "sphinx"]
-test = ["pytest", "tornado (>=4.5)", "typeguard"]
-
-[[package]]
 name = "types-pytz"
 version = "2024.1.0.20240417"
 description = "Typing stubs for pytz"
@@ -1540,4 +1543,4 @@ test = ["gevent (>=20.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "87b072c9ea75d1ebc5311f06bf8506aa640acba3c5d6156903801ff3d786ea83"
+content-hash = "51f02da1173dc82ae35d5a1e8dd1a98aaac170da0e952c3d55c3fab203611a1b"
