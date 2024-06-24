@@ -14,7 +14,7 @@ python = "^3.12"
 oslo-messaging = { version = "14.8.0", extras = ["amqp1"] }
 pytz = ">=2023.3"
 structlog = ">=23.1.0"
-voluptuous = "^0.14.2"
+voluptuous = "^0.15.0"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.10.0"
