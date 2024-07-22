@@ -152,6 +152,18 @@ class QuizAPI(BaseAPI):
             context, "run_user_code", code=code, language=language, stdin=stdin
         )
 
+    def lint(
+        self,
+        context: dict[str, Any],
+        lint_profile: str,
+        language: str,
+        code: str,
+    ) -> CodeRunResult:
+        """Run user code."""
+        return self.client.call(
+            context, "lint", lint_profile=lint_profile, language=language, code=code
+        )
+
 
 class UtilsAPI(BaseAPI):
     """Client side of the utils RPC API."""
